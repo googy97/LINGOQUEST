@@ -4,78 +4,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LingoQuest - مغامرة الإنجليزية</title>
+  <title>LingoQuest | رحلتك للإنجليزية</title>
   <style>
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: #28254b;
+      background: linear-gradient(135deg, #fff4df, #e8e7ff);
       display: grid;
       place-items: center;
       padding: 20px;
-      font-family: Arial, sans-serif;
-      color: #263b32;
-      background: linear-gradient(135deg, #dff5e5, #e7e7ff);
     }
 
     .card {
       width: 100%;
-      max-width: 420px;
+      max-width: 430px;
       padding: 28px;
-      border-radius: 24px;
       background: white;
-      box-shadow: 0 12px 35px #233d3020;
+      border-radius: 25px;
+      box-shadow: 0 15px 45px #40367520;
     }
 
-    .logo { text-align: center; font-size: 54px; }
-    h1, .subtitle { text-align: center; }
-    h1 { margin-bottom: 8px; }
-    .subtitle { color: #65756b; line-height: 1.8; }
-
-    label {
-      display: block;
-      margin: 15px 0 7px;
-      font-weight: bold;
+    .logo {
+      text-align: center;
+      font-size: 35px;
+      margin-bottom: 8px;
     }
+
+    h1 { text-align: center; margin: 8px 0; }
+    .subtitle { text-align: center; color: #77728d; line-height: 1.8; }
+
+    label { display: block; margin: 15px 0 7px; }
 
     input {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #ccd9d0;
-      border-radius: 10px;
+      padding: 13px;
+      border: 1px solid #dedbea;
+      border-radius: 12px;
       font-size: 16px;
+      background: #fdfcff;
     }
+
+    input:focus { outline: 2px solid #a99af8; }
 
     button {
       width: 100%;
-      padding: 13px;
-      margin-top: 16px;
       border: 0;
+      padding: 14px;
+      margin-top: 16px;
       border-radius: 12px;
-      background: #477b62;
-      color: white;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
+      background: #7462e8;
+      color: white;
     }
 
-    .secondary {
-      background: #edf5ef;
-      color: #365f4b;
+    button.secondary { background: #eeeaff; color: #5948bd; }
+    button:disabled { opacity: .6; cursor: wait; }
+
+    .switch {
+      text-align: center;
+      margin-top: 18px;
+      color: #6556c7;
+      cursor: pointer;
     }
 
-    .notice {
-      font-size: 13px;
+    #message {
       line-height: 1.8;
-      background: #fff8e8;
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 20px;
+      margin-top: 15px;
+      overflow-wrap: anywhere;
     }
 
-    #message { line-height: 1.8; }
-    [hidden] { display: none !important; }
+    .hidden { display: none; }
+
+    .welcome {
+      text-align: center;
+      padding: 15px 0;
+    }
   </style>
 </head>
 <body>
@@ -84,98 +93,190 @@
     <h1>LingoQuest</h1>
     <p class="subtitle">رحلتك لتعلّم الإنجليزية تبدأ من هنا!</p>
 
-    <section id="login">
-      <h2>أهلًا بالمغامر! 👋</h2>
-      <p>استعدّ لمغامرة مليئة بالكلمات والكنوز.</p>
-
-      <form id="loginForm">
-        <label for="email">البريد الإلكتروني</label>
-        <input id="email" type="email"
-          placeholder="name@example.com" required>
-
-        <label for="password">كلمة المرور التجريبية</label>
-        <input id="password" type="password" required>
-
-        <button type="submit">دخول إلى المغامرة 🚀</button>
-      </form>
-
-      <button class="secondary" id="goSignup" type="button">
-        إنشاء حساب تجريبي جديد
-      </button>
-    </section>
-
-    <section id="signup" hidden>
-      <h2>لنبدأ رحلتك! 🎒</h2>
-
-      <form id="signupForm">
+    <section id="authScreen">
+      <div id="signupFields" class="hidden">
         <label for="nickname">اسمك في اللعبة</label>
-        <input id="nickname" required maxlength="30">
+        <input id="nickname" maxlength="30" placeholder="اكتبي اسمك">
+      </div>
 
-        <label for="newEmail">البريد الإلكتروني</label>
-        <input id="newEmail" type="email" required>
+      <label for="email">البريد الإلكتروني</label>
+      <input id="email" type="email" autocomplete="email"
+             placeholder="name@example.com" required>
 
-        <label for="newPassword">كلمة مرور تجريبية</label>
-        <input id="newPassword" type="password"
-          minlength="6" required>
+      <label for="password">كلمة المرور</label>
+      <input id="password" type="password"
+             autocomplete="current-password"
+             placeholder="اكتبي كلمة المرور" required>
 
-        <label for="confirm">أعيدي كلمة المرور</label>
-        <input id="confirm" type="password"
-          minlength="6" required>
+      <button id="mainButton">تسجيل الدخول 🚀</button>
 
-        <button type="submit">إنشاء حساب</button>
-      </form>
-
-      <button class="secondary" id="goLogin" type="button">
-        العودة لتسجيل الدخول
-      </button>
+      <p class="switch" id="switchMode">
+        ما عندك حساب؟ أنشئي حسابًا جديدًا
+      </p>
     </section>
 
-    <p id="message" role="status"></p>
+    <section id="welcomeScreen" class="hidden welcome">
+      <h2>أهلًا بك في مغامرتك! 🎉</h2>
+      <p id="welcomeName"></p>
+      <p class="subtitle">تم تسجيل الدخول إلى حسابك.</p>
+      <button id="logoutButton" class="secondary">تسجيل الخروج</button>
+    </section>
 
-    <div class="notice">
-      🛠️ هذه نسخة تجريبية للتعلّم فقط.
-      الحسابات غير محفوظة، فلا تستخدمي كلمة مرورك الحقيقية.
-    </div>
+    <p id="message" role="status" aria-live="polite"></p>
   </main>
 
-  <script>
-    const login = document.getElementById("login");
-    const signup = document.getElementById("signup");
-    const message = document.getElementById("message");
+  <script type="module">
+    import { createClient } from
+      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-    function showScreen(screen) {
-      login.hidden = screen !== "login";
-      signup.hidden = screen !== "signup";
-      message.textContent = "";
+    // ضعي رابط مشروعك ومفتاحه العام هنا
+    const SUPABASE_URL = 'https://kjoasweettbrzljgvrfv.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_qFpRUP_lF73j-2CtqOvoZQ_p_gYf7aW';
+
+    const message = document.getElementById('message');
+    const mainButton = document.getElementById('mainButton');
+    const switchMode = document.getElementById('switchMode');
+    const signupFields = document.getElementById('signupFields');
+    const authScreen = document.getElementById('authScreen');
+    const welcomeScreen = document.getElementById('welcomeScreen');
+
+    let isSignup = false;
+    let supabase;
+
+    function showMessage(text, success = false) {
+      message.textContent = text;
+      message.style.color = success ? '#247849' : '#b42335';
     }
 
-    document.getElementById("goSignup").onclick =
-      () => showScreen("signup");
+    function showUser(user) {
+      authScreen.classList.add('hidden');
+      welcomeScreen.classList.remove('hidden');
 
-    document.getElementById("goLogin").onclick =
-      () => showScreen("login");
+      const name = user.user_metadata?.nickname || user.email;
+      document.getElementById('welcomeName').textContent =
+        `مرحبًا ${name} 💜`;
+      showMessage('');
+    }
 
-    document.getElementById("signupForm").onsubmit = (event) => {
-      event.preventDefault();
+    function showAuth() {
+      authScreen.classList.remove('hidden');
+      welcomeScreen.classList.add('hidden');
+    }
 
-      if (
-        document.getElementById("newPassword").value !==
-        document.getElementById("confirm").value
-      ) {
-        message.textContent = "كلمتا المرور غير متطابقتين.";
+    function switchScreen() {
+      isSignup = !isSignup;
+      signupFields.classList.toggle('hidden', !isSignup);
+      mainButton.textContent = isSignup
+        ? 'إنشاء حساب جديد 🌟'
+        : 'تسجيل الدخول 🚀';
+
+      switchMode.textContent = isSignup
+        ? 'عندك حساب؟ سجّلي الدخول'
+        : 'ما عندك حساب؟ أنشئي حسابًا جديدًا';
+
+      document.getElementById('password').autocomplete =
+        isSignup ? 'new-password' : 'current-password';
+
+      showMessage('');
+    }
+
+    switchMode.addEventListener('click', switchScreen);
+
+    mainButton.addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const nickname = document.getElementById('nickname').value.trim();
+
+      if (!email || !password) {
+        showMessage('اكتبي البريد الإلكتروني وكلمة المرور أولًا.');
         return;
       }
 
-      message.textContent =
-        "رائع! نجحت تجربة إنشاء الحساب. 🎉";
-    };
+      if (isSignup && !nickname) {
+        showMessage('اكتبي اسمك في اللعبة أولًا.');
+        return;
+      }
 
-    document.getElementById("loginForm").onsubmit = (event) => {
-      event.preventDefault();
-      message.textContent =
-        "هذه تجربة للواجهة فقط؛ تسجيل الدخول الحقيقي لم يُفعّل بعد.";
-    };
+      if (isSignup && password.length < 6) {
+        showMessage('استخدمي كلمة مرور من 6 أحرف على الأقل.');
+        return;
+      }
+
+      mainButton.disabled = true;
+      showMessage('لحظة، جاري الاتصال... ', true);
+
+      try {
+        let result;
+
+        if (isSignup) {
+          result = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { nickname },
+              emailRedirectTo: window.location.origin +
+                window.location.pathname
+            }
+          });
+
+          if (result.error) throw result.error;
+
+          if (result.data.session) {
+            showUser(result.data.user);
+            showMessage('تم إنشاء الحساب بنجاح! 🎉', true);
+          } else {
+            showMessage(
+              'تم إرسال طلب التسجيل. إذا طُلب تأكيد البريد، افتحي رسالة التأكيد ثم سجّلي الدخول.',
+              true
+            );
+          }
+        } else {
+          result = await supabase.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (result.error) throw result.error;
+          showUser(result.data.user);
+          showMessage('تم تسجيل الدخول بنجاح! 🎉', true);
+        }
+      } catch (error) {
+        showMessage('تعذّر إكمال العملية: ' + error.message);
+      } finally {
+        mainButton.disabled = false;
+      }
+    });
+
+    document.getElementById('logoutButton').addEventListener(
+      'click', async () => {
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+          showMessage('تعذّر تسجيل الخروج: ' + error.message);
+          return;
+        }
+
+        showAuth();
+        showMessage('تم تسجيل الخروج.', true);
+      }
+    );
+
+    try {
+      if (
+        SUPABASE_URL.includes('ضعي_') ||
+        SUPABASE_KEY.includes('ضع_المفتاح_هنا')
+      ) {
+        throw new Error('أضيفي رابط المشروع والمفتاح العام في الكود أولًا.');
+      }
+
+      supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      const { data } = await supabase.auth.getSession();
+      if (data.session) showUser(data.session.user);
+    } catch (error) {
+      showMessage(error.message);
+      mainButton.disabled = true;
+    }
   </script>
 </body>
 </html>
-
