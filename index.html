@@ -1,1 +1,181 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LingoQuest - مغامرة الإنجليزية</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      color: #263b32;
+      background: linear-gradient(135deg, #dff5e5, #e7e7ff);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      padding: 28px;
+      border-radius: 24px;
+      background: white;
+      box-shadow: 0 12px 35px #233d3020;
+    }
+
+    .logo { text-align: center; font-size: 54px; }
+    h1, .subtitle { text-align: center; }
+    h1 { margin-bottom: 8px; }
+    .subtitle { color: #65756b; line-height: 1.8; }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccd9d0;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 16px;
+      border: 0;
+      border-radius: 12px;
+      background: #477b62;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .secondary {
+      background: #edf5ef;
+      color: #365f4b;
+    }
+
+    .notice {
+      font-size: 13px;
+      line-height: 1.8;
+      background: #fff8e8;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    #message { line-height: 1.8; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="logo">🌍✨</div>
+    <h1>LingoQuest</h1>
+    <p class="subtitle">رحلتك لتعلّم الإنجليزية تبدأ من هنا!</p>
+
+    <section id="login">
+      <h2>أهلًا بالمغامر! 👋</h2>
+      <p>استعدّ لمغامرة مليئة بالكلمات والكنوز.</p>
+
+      <form id="loginForm">
+        <label for="email">البريد الإلكتروني</label>
+        <input id="email" type="email"
+          placeholder="name@example.com" required>
+
+        <label for="password">كلمة المرور التجريبية</label>
+        <input id="password" type="password" required>
+
+        <button type="submit">دخول إلى المغامرة 🚀</button>
+      </form>
+
+      <button class="secondary" id="goSignup" type="button">
+        إنشاء حساب تجريبي جديد
+      </button>
+    </section>
+
+    <section id="signup" hidden>
+      <h2>لنبدأ رحلتك! 🎒</h2>
+
+      <form id="signupForm">
+        <label for="nickname">اسمك في اللعبة</label>
+        <input id="nickname" required maxlength="30">
+
+        <label for="newEmail">البريد الإلكتروني</label>
+        <input id="newEmail" type="email" required>
+
+        <label for="newPassword">كلمة مرور تجريبية</label>
+        <input id="newPassword" type="password"
+          minlength="6" required>
+
+        <label for="confirm">أعيدي كلمة المرور</label>
+        <input id="confirm" type="password"
+          minlength="6" required>
+
+        <button type="submit">إنشاء حساب</button>
+      </form>
+
+      <button class="secondary" id="goLogin" type="button">
+        العودة لتسجيل الدخول
+      </button>
+    </section>
+
+    <p id="message" role="status"></p>
+
+    <div class="notice">
+      🛠️ هذه نسخة تجريبية للتعلّم فقط.
+      الحسابات غير محفوظة، فلا تستخدمي كلمة مرورك الحقيقية.
+    </div>
+  </main>
+
+  <script>
+    const login = document.getElementById("login");
+    const signup = document.getElementById("signup");
+    const message = document.getElementById("message");
+
+    function showScreen(screen) {
+      login.hidden = screen !== "login";
+      signup.hidden = screen !== "signup";
+      message.textContent = "";
+    }
+
+    document.getElementById("goSignup").onclick =
+      () => showScreen("signup");
+
+    document.getElementById("goLogin").onclick =
+      () => showScreen("login");
+
+    document.getElementById("signupForm").onsubmit = (event) => {
+      event.preventDefault();
+
+      if (
+        document.getElementById("newPassword").value !==
+        document.getElementById("confirm").value
+      ) {
+        message.textContent = "كلمتا المرور غير متطابقتين.";
+        return;
+      }
+
+      message.textContent =
+        "رائع! نجحت تجربة إنشاء الحساب. 🎉";
+    };
+
+    document.getElementById("loginForm").onsubmit = (event) => {
+      event.preventDefault();
+      message.textContent =
+        "هذه تجربة للواجهة فقط؛ تسجيل الدخول الحقيقي لم يُفعّل بعد.";
+    };
+  </script>
+</body>
+</html>
+
